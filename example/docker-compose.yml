@@ -4,6 +4,6 @@ version: "2.4"
 services:
 
   redis:
-    image: phlax/redis-socket-server
+    image: phlax/redis
     volumes:
     - ${PWD}/redis:/var/run/sockets
