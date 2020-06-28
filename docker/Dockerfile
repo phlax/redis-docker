@@ -2,7 +2,7 @@
 ARG BUILD_FROM=redis:alpine
 
 FROM $BUILD_FROM
-ARG REDIS_SOCKET=/redis/socket/redis.sock
+ARG REDIS_SOCKET=/var/run/sockets/redis.sock
 ARG DEBIAN_FRONTEND=noninteractive
 ENV REDIS_SOCKET=$REDIS_SOCKET
 

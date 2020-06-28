@@ -6,4 +6,4 @@ services:
   redis:
     image: phlax/redis-socket-server
     volumes:
-    - ${PWD}/redis:/redis/socket
+    - ${PWD}/redis:/var/run/sockets
