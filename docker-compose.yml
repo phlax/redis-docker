@@ -1,9 +1,0 @@
-# docker-compose for phlax/redis-socket-server
-#
-version: "2.4"
-services:
-
-  redis:
-    image: phlax/redis-socket-server
-    build:
-      context: ./docker

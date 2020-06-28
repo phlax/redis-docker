@@ -1,21 +1,7 @@
-# https://travis-ci.org/#!/phlax/redis-socket-server
-dist: trusty
-sudo: true
-language: python
-services:
-  - docker
-
-before_install:
-  - "echo '{\"storage-driver\": \"overlay2\"}' | sudo tee /etc/docker/daemon.json"
-  - sudo service docker restart
+# https://travis-ci.org/#!/phlax/redis-docker
 
 install:
-  - pip install -U docker-compose
-  - docker-compose build redis
-
-  # remove the port
-  - git clone https://github.com/gdraheim/docker-copyedit
-  - ./docker-copyedit/docker-copyedit.py FROM phlax/redis-socket-server INTO phlax/redis-socket-server:latest REMOVE PORT 6379
+  - make image
 
   # get redis cli
   - sudo apt-get install -y -qq --no-install-recommends redis-tools
@@ -40,9 +26,13 @@ script:
   - docker-compose stop redis
   - docker-compose logs redis
 
+before_deploy:
+  - echo $DOCKER_PASSWORD | docker login -u phlax --password-stdin
 
-after_success:
-
-  - docker-compose build redis
-  - docker login -u phlax -p "$DOCKER_PASSWORD"
-  - docker push phlax/redis-socket-server
+deploy:
+  provider: script
+  script: make docker-push
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^(master)$
