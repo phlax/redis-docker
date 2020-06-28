@@ -13,4 +13,4 @@ ENTRYPOINT ["/usr/local/bin/redis-entrypoint.sh"]
 CMD ["redis-server", "--port", "0", "--bind", "127.0.0.1", "--unixsocket"]
 
 HEALTHCHECK --interval=10s --timeout=1s --retries=5 \
-	CMD redis-cli ping | grep PONG
+	CMD redis-cli -s $REDIS_SOCKET ping | grep PONG
